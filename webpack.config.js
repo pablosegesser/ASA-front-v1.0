@@ -40,7 +40,7 @@ module.exports = {
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: 'https://api-asa-2021.herokuapp.com'
+            apiUrl: process.env.API_ENDPOINT
         })
     }
     
