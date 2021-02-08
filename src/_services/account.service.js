@@ -5,7 +5,7 @@ import { fetchWrapper} from '../_helpers/fetch-wrapper';
 import {history} from '../_helpers/history';
 
 const userSubject = new BehaviorSubject(null);
-const baseUrl = `${process.env.API_ENDPOINT}/accounts`;
+const baseUrl = `${config.apiUrl}/accounts`;
 
 export const accountService = {
     login,
