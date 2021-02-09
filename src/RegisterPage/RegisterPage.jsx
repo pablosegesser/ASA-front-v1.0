@@ -159,7 +159,7 @@ function RegisterPage() {
                         console.log('filtrado '+visible1);
                         const visible11 = JSON.stringify(arrRemoved);
                         console.log('removed '+visible11);
-                        setarr(arr);
+                        setarr(arrFilterd);
                         getAlll()
                        
                     }
