@@ -282,6 +282,7 @@ export default function NavBarDashboard(props) {
                 aria-label="open drawer"
                 onClick={handleDrawerOpen}
                 className={clsx(open && classes.menuButtonHidden)}
+                style={{color:"#fff"}}
               >
                 <Menu />
               </IconButton>

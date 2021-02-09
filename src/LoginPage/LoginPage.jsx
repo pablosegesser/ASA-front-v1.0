@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {accountActions} from '../_actions/account.actions';
 import { userActions } from '../_actions';
+import {Button} from '@material-ui/core';
 
 function LoginPage() {
     const [inputs, setInputs] = useState({
@@ -35,30 +36,30 @@ function LoginPage() {
 
     return (
         <div className="col-lg-4 offset-lg-4">
-            <h2>Login</h2>
+            <h2>Ingresar</h2>
             <form name="form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Email</label>
                     <input type="text" name="email" value={email} onChange={handleChange} className={'form-control' + (submitted && !email ? ' is-invalid' : '')} />
                     {submitted && !email &&
-                        <div className="invalid-feedback">Email is required</div>
+                        <div className="invalid-feedback">El email es requerido</div>
                     }
                 </div>
                 <div className="form-group">
-                    <label>Password</label>
+                    <label>Constraseña</label>
                     <input type="password" name="password" value={password} onChange={handleChange} className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
                     {submitted && !password &&
-                        <div className="invalid-feedback">Password is required</div>
+                        <div className="invalid-feedback">La contraseña es requerida</div>
                     }
                 </div>
                 <div className="form-group">
-                    <button className="btn btn-primary">
+                    <Button type="submit" variant="contained" color="primary">
                         {loggingIn && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                        Login
-                    </button>
-                    <Link to="/register" className="btn btn-link">Register</Link>
-                    <div className="form-group col text-right">
-                                <Link to="forgot-password" className="btn btn-link pr-0">Forgot Password?</Link>
+                        Ingresar
+                    </Button>
+                    <Link to="/register" className="btn btn-link">Registrarse</Link>
+                    <div className="form-group col text-right" style={{display:"inline"}}>
+                                <Link to="forgot-password" className="btn btn-link pr-0">Olvidaste tu contraseña?</Link>
                             </div>
                 </div>
             </form>

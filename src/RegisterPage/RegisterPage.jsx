@@ -178,27 +178,27 @@ function RegisterPage() {
 
     return (
         <div className="col-lg-8 offset-lg-2">
-            <h2>Register</h2>
+            <h2>Registrarse</h2>
             <form name="form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>First Name</label>
+                    <label>Nombre</label>
                     <input type="text" name="firstName" value={user.firstName} onChange={handleChange} className={'form-control' + (submitted && !user.firstName ? ' is-invalid' : '')} />
                     {submitted && !user.firstName &&
-                        <div className="invalid-feedback">First Name is required</div>
+                        <div className="invalid-feedback">El nombre es requerido</div>
                     }
                 </div>
                 <div className="form-group">
-                    <label>Last Name</label>
+                    <label>Apellido</label>
                     <input type="text" name="lastName" value={user.lastName} onChange={handleChange} className={'form-control' + (submitted && !user.lastName ? ' is-invalid' : '')} />
                     {submitted && !user.lastName &&
-                        <div className="invalid-feedback">Last Name is required</div>
+                        <div className="invalid-feedback">El apellido es requerido</div>
                     }
                 </div>
                 <div className="form-group">
                     <label>Email</label>
                     <input type="text" name="email" value={user.email} onChange={handleChange} className={'form-control' + (submitted && !user.email ? ' is-invalid' : '')} />
                     {submitted && !user.email &&
-                        <div className="invalid-feedback">Email is required</div>
+                        <div className="invalid-feedback">El email es requerido</div>
                     }
                 </div>
             
@@ -211,7 +211,7 @@ function RegisterPage() {
 
                   
                 <div className="form-group">
-                                            <label>Genero</label><br/>
+                                            <label>Sexo</label><br/>
                                             <span>Masculino <input type="radio" name="genero" onChange={handleChange}  value="masc" ></input></span>
                                             <span>Femenino<input type="radio" name="genero" onChange={handleChange}  value="fem" ></input></span>
                                         </div>
@@ -255,26 +255,26 @@ function RegisterPage() {
 
 
                 <div className="form-group">
-                    <label>Password</label>
+                    <label>Contraseña</label>
                     <input type="password" name="password" value={user.password} onChange={handleChange} className={'form-control' + (submitted && !user.password ? ' is-invalid' : '')} />
                     {submitted && !user.password &&
-                        <div className="invalid-feedback">Password is required</div>
+                        <div className="invalid-feedback">La contraseña es requerida</div>
                     }
                 </div>
                 <div className="form-group">
-                    <label>Confirm Password</label>
+                    <label>Confirmar contraseña</label>
                     <input type="password" name="confirmPassword" value={user.confirmPassword} onChange={handleChange} className={'form-control' + (submitted && !user.confirmPassword ? ' is-invalid' : '')} />
                     {submitted && !user.confirmPassword &&
-                        <div className="invalid-feedback">Confirm Password is required</div>
+                        <div className="invalid-feedback">Confirmar contraseña es requerido</div>
                     }
                 </div>
 
                 <div className="form-group">
-                    <button className="btn btn-primary">
+                    <Button type="submit" variant="contained" color="primary">
                         {registering && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                        Register
-                    </button>
-                    <Link to="/login" className="btn btn-link">Cancel</Link>
+                        Registrarse
+                    </Button>
+                    <Link to="/login" className="btn btn-link">Cancelar</Link>
                 </div>
             </form>
         </div>
