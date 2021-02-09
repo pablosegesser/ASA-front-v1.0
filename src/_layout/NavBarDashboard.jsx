@@ -234,11 +234,11 @@ export default function NavBarDashboard(props) {
   const renderTopNavBarLinks = () => {
     return (
       <React.Fragment>
-        <Grid className={classes.padding20Desk} item style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      {/*  <Grid className={classes.padding20Desk} item style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "center" }}>
           <NavLink activeClassName={"selected"} exact to="/usuarios" style={{ color: '#FFF' }} onClick={() => handleChange(0)}>
             <Typography>Usuarios</Typography>
           </NavLink>
-        </Grid>
+    </Grid>*/}
 
         <Grid className={classes.padding20Desk} item style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "center" }}>
           <NavLink activeClassName={"selected"} exact to="/campeonatos" style={{ color: '#FFF' }} onClick={() => handleChange(1)}>
@@ -249,7 +249,7 @@ export default function NavBarDashboard(props) {
         <Grid item className={classes.padding20Desk}>
           <Grid container>
             <Grid item>
-              <NavLink activeClassName={"selected"} exact to="/">
+              <NavLink activeClassName={"selected"} exact to="/perfil">
                 <IconButton>
                   <Person className={classes.appBarIcon} />
                 </IconButton>
@@ -308,10 +308,17 @@ export default function NavBarDashboard(props) {
              {!open ? <Grid item>
                 <Grid container className={classes.flexEndMob}>
                   <Grid item>
-                    <NavLink activeClassName={"selected"} exact to="/company-information">
+                    <NavLink activeClassName={"selected"} exact to="/perfil">
                       <IconButton>
                         <Person className={classes.appBarIcon} />
                       </IconButton>
+                    </NavLink>
+                  </Grid>
+                  <Grid item>
+                    <NavLink activeClassName={"selected"} exact to="/perfil">
+                    <IconButton onClick={logout}>
+                  <ExitToAppIcon className={classes.appBarIconLight} />
+                </IconButton>
                     </NavLink>
                   </Grid>
                 </Grid>

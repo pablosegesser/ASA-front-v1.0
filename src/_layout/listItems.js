@@ -30,7 +30,7 @@ const MainListItems = ({isOpen, windowsDimension, drawerClose, role}) => {
   const listItems = () =>{
    return(
       <div>
-      <NavLink onClick={() => handleSelected(1)} style={{color: "#4A4A4A"}} exact to="/campeonatos" activeClassName={"selected-left"}>
+      <NavLink onClick={() => drawerClose()} style={{color: "#4A4A4A"}} exact to="/campeonatos" activeClassName={"selected-left"}>
         <ListItem button>
           <ListItemIcon>
             <BeachAccessIcon />
@@ -38,15 +38,7 @@ const MainListItems = ({isOpen, windowsDimension, drawerClose, role}) => {
           <ListItemText primary="Campeonatos" />
         </ListItem>
       </NavLink>
-      <NavLink onClick={() => handleSelected(2)} style={{color: "#4A4A4A"}} exact to="/usuarios" activeClassName={"selected-left"}>
-        <ListItem button>
-          <ListItemIcon>
-            <GroupIcon/>
-          </ListItemIcon>
-          <ListItemText primary="Usuarios" />
-        </ListItem>
-      </NavLink>
-      <NavLink onClick={() => handleSelected(3)} style={{color: "#4A4A4A"}} exact to="/" activeClassName={"selected-left"}>
+      <NavLink onClick={() => drawerClose()} style={{color: "#4A4A4A"}} exact to="/perfil" activeClassName={"selected-left"}>
         <ListItem button>
         <ListItemIcon>
           <AccountBoxIcon />

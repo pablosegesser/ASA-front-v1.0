@@ -80,7 +80,7 @@ const close = ()=>{
                         <Switch>
                             <PrivateRoute exact path="/" component={HomePage} />
                             <PrivateRoute exact path="/campeonatos" component={ChampsPage} />
-                            <PrivateRoute exact path="/usuarios" component={UsersPage} />
+                            <PrivateRoute exact path="/perfil" component={UsersPage} />
                             <Route path="/login" component={LoginPage} />
                             <Route path="/verify-email" component={VerifyEmail} />
                             <Route path="/forgot-password" component={ForgotPassword} />

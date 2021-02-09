@@ -17,6 +17,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import {Dialog, DialogActions, DialogContent, DialogTitle, Divider} from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
+import {accountService} from '../_services/account.service'
 
 
 
@@ -112,7 +113,7 @@ const useStyles = makeStyles((theme) =>({
     }));
 
 export const ChampDetaills = ({champ}) => {
-
+    const userValue = accountService.userValue;
     const users = useSelector(state => state.accounts);
     const campeonatos = useSelector(state => state.campeonatos);
     const user = useSelector(state => state.authenticationAccount.user);
@@ -786,8 +787,8 @@ const handleSuscribeRepre =(champ,nombre,apellido,genero,index,edad)=>{
                     <DialogContent>
                       
                        <Grid container>
-                           {user.representados.map((r,index)=>
-                            <div key={r._id} className={user.representados.length >= 2 ? classes.boxRepre : classes.boxRepre100}>
+                           {userValue !== undefined && userValue.representados.map((r,index)=>
+                            <div key={r._id} className={userValue.representados.length >= 2 ? classes.boxRepre : classes.boxRepre100}>
                                 <p className={classes.textRepre}>{r.nombre+' '+r.apellido}</p>
                                 <p className={classes.textRepre}>Edad: {r.edad} Sexo: {r.genero}</p>
                                
