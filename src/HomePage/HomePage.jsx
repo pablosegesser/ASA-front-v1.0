@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import {alertActions} from '../_actions/alert.actions'
-import { userActions } from '../_actions';
+import { accountActions, userActions } from '../_actions';
 import {campeonatosActions} from '../_actions/campeonatos.actions';
 
 function HomePage() {
@@ -54,6 +54,7 @@ function HomePage() {
     const [suscribed, setSuscribed] = useState();
 
     useEffect(() => {
+        checkIdTutor();
         getAlllChamps();
         getAlll();
        {/* setInscripto({
@@ -64,6 +65,21 @@ function HomePage() {
         });*/}
         console.log
     }, []);
+
+    const checkIdTutor = ()=>{
+        const repreArray = user.representados.slice();
+        let found = false;
+        for(var i = 0;i< repreArray.length;i++){
+            if(repreArray[i].idTutor == 'registerRepre' || repreArray[i].idTutor == null || repreArray[i].idTutor == undefined){
+                repreArray[i].idTutor = user.id;
+                found = true;
+            }
+        }
+        if(found){
+            dispatch(accountActions.update_user(user.id,{representados:repreArray}));
+            dispatch(alertActions.success('Your register represents are completed!'));
+        }
+    }
 
     function getAlllChamps(){
         dispatch(campeonatosActions.getAll());

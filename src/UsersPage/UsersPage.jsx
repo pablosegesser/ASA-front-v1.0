@@ -29,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#019DF4",
         width:"25%",
         float:"left",
-        textAlign:"center"
+        textAlign:"center",
+        [theme.breakpoints.down('xs')]:{
+            width:"50%"
+        }
     },
     textSubcat:{
         fontSize:12,
@@ -59,7 +62,8 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     centerCent:{
-        justifyContent:"center"
+        justifyContent:"center",
+        textAlign:"center"
     },
     contRepre:{
         border:"1px solid #ccc",
@@ -67,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
         borderRadius:10,
         padding:10,
         marginBottom:30
+    },
+    padd20:{
+        padding:20
     }
 }));
 
@@ -385,6 +392,12 @@ const refresh = () =>{
 
 
     const handleAddSubCategory = (account,repreName,repreApellido)=>{
+         /*reset form representados */
+         document.getElementById('nombreRepre').value = "";
+         document.getElementById('apellidoRepre').value = "";
+         document.getElementById('generoRepre').checked=false;
+         document.getElementById('fechaRepre').value='';
+
 
         let name = repreName;
         let apellido = repreApellido;
@@ -591,7 +604,8 @@ const refresh = () =>{
                 </Grid>
                
                
-                        <div className={classes.contRepre}>
+                        <Grid container className={classes.contRepre}>
+                                                    <Grid item xs={12}>
                                                         <Typography variant="h5" className={classes.center}>Representados</Typography> 
                                                         <Grid item className={classes.contSubcats}>
                                                         {userValue !== null ? userValue.representados.map((r,index)=>
@@ -601,26 +615,37 @@ const refresh = () =>{
                                                                     <a className="danger" onClick={()=>handleDeleteSubCategory(r.nombre,r.apellido)}>Borrar</a>
                                                                 </div>) : <p className={classes.center}>NO TIENE REPRESENTADOS REGISTRADOS</p>}
                                                         </Grid>
-                                                   
-                                                        <p>Nombre</p>
-                                                            <input type="text" name="nombre" onChange={onchangeSubcat} className="form-control"></input>
+                                                        </Grid>
+                                                            <Grid item xs={12} md={6} className={classes.padd20}>
+                                                            <p>Nombre</p>
+                                                            <input type="text" name="nombre" id="nombreRepre" onChange={onchangeSubcat} className="form-control"></input>
                                                             <p>Apellido</p>
-                                                            <input type="text" name="apellido" onChange={onchangeSubcat} className="form-control"></input>
+                                                            <input type="text" name="apellido" id="apellidoRepre" onChange={onchangeSubcat} className="form-control"></input>
                                                         
-                                                        <Grid className="form-group">
-                                                            <label>Genero</label><br/>
-                                                            <span>Masculino <input type="radio" name="genero" onChange={onchangeSubcat}  value="masc" ></input></span>
-                                                            <span> Femenino  <input type="radio" name="genero" onChange={onchangeSubcat}  value="fem" ></input></span>
-                                                        </Grid>
-                                                        <Grid className="form-group">
-                                                            <label>Fecha de Nacimiento</label>
-                                                            <input type="date" name="fechaNac" onChange={onchangeSubcat}></input>
-                                                        </Grid>
-                                                        
-                                                    <Button variant="contained" color="primary" onClick={()=>handleAddSubCategory(user,representadoss.nombre,representadoss.apellido)}>AGREGAR REPRESENTADO</Button>
+                                                            </Grid>
+                                                            <Grid item xs={12} md={6} className={classes.padd20}>
+
+                                                                <Grid className="form-group">
+                                                                    <label>Genero</label><br/>
+                                                                    <span>Masculino <input type="radio" id="generoRepre" name="genero" onChange={onchangeSubcat}  value="masc" ></input></span>
+                                                                    <span> Femenino  <input type="radio" id="generoRepre" name="genero" onChange={onchangeSubcat}  value="fem" ></input></span>
+                                                                </Grid>
+                                                                <Grid className="form-group">
+                                                                    <label>Fecha de Nacimiento</label><br />
+                                                                    <input type="date" name="fechaNac" id="fechaRepre" onChange={onchangeSubcat}></input>
+                                                                </Grid>
+                                                                <Grid>
+                                                                    <Typography>Edad: {representadoss.edad !== null ? representadoss.edad : ''}</Typography>
+                                                                </Grid>
+                                                            </Grid>
+                                                      
+                                                      <Grid item xs={12} className={classes.centerCent}>
+                                                      <Button variant="contained" color="primary" onClick={()=>handleAddSubCategory(user,representadoss.nombre,representadoss.apellido)}>AGREGAR REPRESENTADO</Button>
+                                                          </Grid>  
+                                                    
 
                                 
-                                                    </div>
+                                                    </Grid>
                            
                        
                         

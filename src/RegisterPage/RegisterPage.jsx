@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../_actions';
 import {accountActions} from '../_actions/account.actions'
 import { date } from 'yup/lib/locale';
-import {Grid, makeStyles, Button} from '@material-ui/core';
+import {Grid, makeStyles, Button, Typography} from '@material-ui/core';
 import {alertActions} from '../_actions/alert.actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +28,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#019DF4",
         width:"25%",
         float:"left",
-        textAlign:"center"
+        textAlign:"center",
+        [theme.breakpoints.down('xs')]:{
+            width:"50%"
+        }
     },
     textSubcat:{
         fontSize:12,
@@ -59,6 +62,14 @@ const useStyles = makeStyles((theme) => ({
     },
     centerCent:{
         justifyContent:"center"
+    },
+    contSeparate:{
+        border:"1px solid #ccc",
+        backgroundColor:"#f5f5f5",
+        padding:10,
+        borderRadius:10,
+        marginBottom:20,
+        margin:5
     }
 }));
 
@@ -103,6 +114,11 @@ function RegisterPage() {
 
     /*add array representados*/
     const handleAddSubcatArr = ()=>{
+        /*reset form representados */
+            document.getElementById('nombreRepre').value = "";
+            document.getElementById('apellidoRepre').value = "";
+            document.getElementById('generoRepre').checked=false;
+            document.getElementById('fechaRepre').value='';
 
         if(arrbefore.nombre !== '' && arrbefore.apellido !== '' && arrbefore.nombre !== undefined && arrbefore.apellido !== undefined
         && arrbefore.fechaNac !== '' && arrbefore.fechaNac !== undefined){
@@ -125,6 +141,7 @@ function RegisterPage() {
             }
 
             setarr([...arr, arrbefore]);
+            
         }else{
             dispatch(alertActions.error('Debe agregar todos los campos'))
         }
@@ -138,7 +155,8 @@ function RegisterPage() {
         let value = e.target.value;
             setarrbefore({...arrbefore,
                 [name]: value,
-                edad:_calculateAge(new Date(arrbefore.fechaNac))
+                edad:_calculateAge(new Date(arrbefore.fechaNac)),
+                idTutor:'registerRepre'
             });
         
 
@@ -177,8 +195,47 @@ function RegisterPage() {
     }
 
     return (
-        <div className="col-lg-8 offset-lg-2">
+        <div className="col-lg-10" style={{margin:"0 auto"}}>
+            
             <h2>Registrarse</h2>
+         <Grid container> 
+
+         <Grid item className={classes.contSeparate} md={5} xs={12}>
+                                        <div className="form-group">
+                        <Typography variant="h4" className={classes.center}>Representados</Typography>
+                        <Grid item className={classes.contSubcats}>
+                                        {arr.length > 0 ? arr.map((r,index)=>
+                                                <div className={classes.boxSubcat} key={r._id}>
+                                                    <p className={classes.textSubcat}>{r.nombre+' '+r.apellido}</p>
+                                                  <p className={classes.textSubcat}>Edad:{r.edad} Sexo: {r.genero}</p>
+                                                    <a className="danger" onClick={()=>handleDeleteArr(r.nombre,r.apellido)}>Borrar</a>
+                                                </div>) : <p className={classes.center}>NO TIENE REPRESENTADOS</p>}
+                                        </Grid>
+                                       </div><br/><br/>
+                                       <div className="form-group">
+                                        <p>Nombre</p>
+                                            <input type="text" id="nombreRepre" name="nombre" onChange={handleAddArr} className="form-control"></input>
+                                            <p>Apellido</p>
+                                            <input type="text" id="apellidoRepre" name="apellido" onChange={handleAddArr} className="form-control"></input>
+                                        
+                                        <Grid className="form-group">
+                                            <label>Genero</label><br/>
+                                            <span>Masculino <input type="radio" id="generoRepre" name="genero" onChange={handleAddArr}  value="masc" ></input></span>
+                                            <span> Femenino  <input type="radio" id="generoRepre" name="genero" onChange={handleAddArr}  value="fem" ></input></span>
+                                        </Grid>
+                                        <Grid className="form-group">
+                                            <label>Fecha de Nacimiento</label>
+                                            <input type="date" id="fechaRepre" name="fechaNac" onChange={handleAddArr}></input>
+                                        </Grid>
+                                        <Grid>
+                                            <Typography>Edad: {arrbefore.edad !== null ? arrbefore.edad : ''}</Typography>
+                                        </Grid>
+                                        
+                                    <Button variant="contained" color="primary" onClick={()=>handleAddSubcatArr()}>AGREGAR REPRESENTADO</Button><br></br>
+                        </div>
+
+                        </Grid>
+            <Grid item className={classes.contSeparate} md={6} xs={12}>
             <form name="form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Nombre</label>
@@ -220,41 +277,7 @@ function RegisterPage() {
                                             <span><input type="date" name="dateOfBirth" onChange={handleChange}  ></input></span>
                                            
                                         </div>
-
-
                                         <div className="form-group">
-                        <label>Representados</label>
-                        <Grid item className={classes.contSubcats}>
-                                        {arr.length > 0 ? arr.map((r,index)=>
-                                                <div className={classes.boxSubcat} key={r._id}>
-                                                    <p className={classes.textSubcat}>{r.nombre+' '+r.apellido}</p>
-                                                  <p className={classes.textSubcat}>Edad:{r.edad} Sexo: {r.genero}</p>
-                                                    <a className="danger" onClick={()=>handleDeleteArr(r.nombre,r.apellido)}>Borrar</a>
-                                                </div>) : <p>NO TIENE REPRESENTADOS</p>}
-                                        </Grid>
-                                       </div><br/><br/>
-                                       <div className="form-group">
-                                        <p>Nombre</p>
-                                            <input type="text" name="nombre" onChange={handleAddArr} className="form-control"></input>
-                                            <p>Apellido</p>
-                                            <input type="text" name="apellido" onChange={handleAddArr} className="form-control"></input>
-                                        
-                                        <Grid className="form-group">
-                                            <label>Genero</label><br/>
-                                            <span>Masculino <input type="radio" name="genero" onChange={handleAddArr}  value="masc" ></input></span>
-                                            <span> Femenino  <input type="radio" name="genero" onChange={handleAddArr}  value="fem" ></input></span>
-                                        </Grid>
-                                        <Grid className="form-group">
-                                            <label>Fecha de Nacimiento</label>
-                                            <input type="date" name="fechaNac" onChange={handleAddArr}></input>
-                                        </Grid>
-                                        
-                                    <Button variant="contained" color="primary" onClick={()=>handleAddSubcatArr()}>AGREGAR REPRESENTADO</Button><br></br>
-                        </div>
-
-
-
-                <div className="form-group">
                     <label>Contraseña</label>
                     <input type="password" name="password" value={user.password} onChange={handleChange} className={'form-control' + (submitted && !user.password ? ' is-invalid' : '')} />
                     {submitted && !user.password &&
@@ -277,6 +300,9 @@ function RegisterPage() {
                     <Link to="/login" className="btn btn-link">Cancelar</Link>
                 </div>
             </form>
+            </Grid>
+                        </Grid>                          
+              
         </div>
     );
 }

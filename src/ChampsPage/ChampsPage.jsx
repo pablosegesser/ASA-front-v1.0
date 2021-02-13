@@ -41,7 +41,7 @@ export const ChampsPage = () => {
     const campeonatos = useSelector(state => state.campeonatos);
     
     const user = useSelector(state => state.authenticationAccount.user);
-    //const userCurrent = useSelector(state => state.authentication.user);
+    const userCurrent = useSelector(state => state.authenticationAccount.user);
     const dispatch = useDispatch();
     const [edit,setEdit] = useState({
         open:false,
@@ -313,7 +313,7 @@ const refresh = () =>{
       height:600, 
       width: "100%",
       [theme.breakpoints.down('xs')]: {
-        width: 300
+        width: "97%"
       },
       [theme.breakpoints.up(1450)]:{
        // width: 1300
@@ -359,6 +359,13 @@ const refresh = () =>{
     },
     centerCent:{
         justifyContent:"center"
+    },
+    title:{
+        fontSize:32,
+        margin:"15px 0px",
+        [theme.breakpoints.down('xs')]:{
+            fontSize:24
+        }
     }
 }));
 
@@ -698,7 +705,7 @@ const onchangeSubcat = (e)=>{
 </Grid>
 
             <Grid>
-            <Typography variant="h3">Todos los Campeonatos:</Typography>
+            <Typography variant="h3" className={classes.title}>Todos los Campeonatos:</Typography>
             </Grid>
                
                 
@@ -721,7 +728,7 @@ const onchangeSubcat = (e)=>{
                           <ChampCard champ={user} />
                           {user.deleting ? <em> - Deleting...</em>
                             : user.deleteError ? <span className="text-danger"> - ERROR: {user.deleteError}</span>
-                            : <div className={classes.center}><span><Button variant="contained" color="secondary" startIcon={<DeleteIcon />} onClick={() => fireDelete(user.id)} className="text-primary">Borrar</Button></span>  <span><Button variant="contained" color="primary" startIcon={<EditIcon />} onClick={() => handleEditChamp(user,index)} className="text-primary">Edit</Button></span></div>}
+                            : userCurrent.role == 'Admin' && <div className={classes.center}><span><Button variant="contained" color="secondary" startIcon={<DeleteIcon />} onClick={() => fireDelete(user.id)} className="text-primary">Borrar</Button></span>  <span><Button variant="contained" color="primary" startIcon={<EditIcon />} onClick={() => handleEditChamp(user,index)} className="text-primary">Edit</Button></span></div>}
                             
                         </Slide>
                     
@@ -749,8 +756,8 @@ const onchangeSubcat = (e)=>{
               </Grid>
             </CarouselProvider>
             </Grid>
-            <Grid container className={classes.contAdminPanel}>
-         <Grid item xs={12}>
+            {userCurrent.role == 'Admin' && <Grid container className={classes.contAdminPanel}>
+             <Grid item xs={12}>
              <Typography variant="h5" className={classes.center}>ADMIN PANEL</Typography>
              <Divider />
             <Grid item className={classes.center} style={{margin:"20px 0px"}}>
@@ -1103,7 +1110,7 @@ const onchangeSubcat = (e)=>{
 
 
          </Grid>
-     </Grid>
+     </Grid>}
                         
         
         </Grid>

@@ -16,6 +16,7 @@ import { NavLink } from 'react-router-dom';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 import GroupIcon from '@material-ui/icons/Group';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import HomeIcon from '@material-ui/icons/Home';
 
 const MainListItems = ({isOpen, windowsDimension, drawerClose, role}) => {
   const [selected, setSelected] = useState(null);
@@ -30,6 +31,14 @@ const MainListItems = ({isOpen, windowsDimension, drawerClose, role}) => {
   const listItems = () =>{
    return(
       <div>
+          <NavLink onClick={() => drawerClose()} style={{color: "#4A4A4A"}} exact to="/" activeClassName={"selected-left"}>
+        <ListItem button>
+          <ListItemIcon>
+            <HomeIcon/>
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
+      </NavLink>
       <NavLink onClick={() => drawerClose()} style={{color: "#4A4A4A"}} exact to="/campeonatos" activeClassName={"selected-left"}>
         <ListItem button>
           <ListItemIcon>
@@ -38,6 +47,7 @@ const MainListItems = ({isOpen, windowsDimension, drawerClose, role}) => {
           <ListItemText primary="Campeonatos" />
         </ListItem>
       </NavLink>
+    
       <NavLink onClick={() => drawerClose()} style={{color: "#4A4A4A"}} exact to="/perfil" activeClassName={"selected-left"}>
         <ListItem button>
         <ListItemIcon>

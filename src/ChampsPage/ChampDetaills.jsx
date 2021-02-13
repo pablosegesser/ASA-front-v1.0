@@ -26,7 +26,10 @@ const useStyles = makeStyles((theme) =>({
         width:"90%",
         height:400,
         backgroundColor: "#f5f5f5",
-        margin: "0 auto"
+        margin: "0 auto",
+        [theme.breakpoints.down('xs')]:{
+            width:"100%"
+        }
     },
     title:{
         fontSize: 20,
@@ -117,7 +120,7 @@ export const ChampDetaills = ({champ}) => {
     const users = useSelector(state => state.accounts);
     const campeonatos = useSelector(state => state.campeonatos);
     const user = useSelector(state => state.authenticationAccount.user);
-    const userCurrent = useSelector(state => state.authentication.user);
+    const userCurrent = useSelector(state => state.authenticationAccount.user);
     const dispatch = useDispatch();
     const [edit,setEdit] = useState({
         open:false,
@@ -165,7 +168,7 @@ export const ChampDetaills = ({champ}) => {
         setInscripto({
             nombre: user.firstName,
             apellido: user.lastName,
-           edad: _calculateAge(new Date(user.dateOfBirth)),
+            edad: _calculateAge(new Date(user.dateOfBirth)),
             id: user.id,
             genero:user.genero
         });
@@ -531,7 +534,8 @@ const handleAddSubCategory = (champ,subcatName,subcatGenere)=>{
                     nombre:representado.nombre,
                     apellido:representado.apellido,
                     genero:representado.genero,
-                    edad:representado.edad
+                    edad:representado.edad,
+                    idTutor:representado.idTutor
                 });
             }
             if(edad == undefined || inscripto.edad<=edad){
@@ -608,7 +612,7 @@ const handleAddSubCategory = (champ,subcatName,subcatGenere)=>{
             console.log('user '+id);
             const subcatArray = champ.subcategorias.slice();
             const inscriptosArray =champ.subcategorias[index].inscriptos.slice();
-            const filtradoArray = inscriptosArray.filter( ins => ins.id !== id);
+            const filtradoArray = inscriptosArray.filter( ins => ins._id !== id);
         
             subcatArray[index].inscriptos=filtradoArray;
            updateChamps({
@@ -666,13 +670,15 @@ const selectRepre = (nombre,apellido,genero,edad)=>{
         nombre:nombre,
         apellido:apellido,
         genero:genero,
-        edad:edad
+        edad:edad,
+        idTutor:user.id
     });
     setInscripto({
         nombre:nombre,
         apellido:apellido,
         genero:genero,
-        edad:edad
+        edad:edad,
+        idTutor:user.id
     });
     setopenRepreConf(true)
 }
@@ -787,12 +793,12 @@ const handleSuscribeRepre =(champ,nombre,apellido,genero,index,edad)=>{
                     <DialogContent>
                       
                        <Grid container>
-                           {userValue !== undefined && userValue.representados.map((r,index)=>
+                           {userValue !== undefined && userValue !== null && userValue.representados.map((r,index)=>
                             <div key={r._id} className={userValue.representados.length >= 2 ? classes.boxRepre : classes.boxRepre100}>
                                 <p className={classes.textRepre}>{r.nombre+' '+r.apellido}</p>
                                 <p className={classes.textRepre}>Edad: {r.edad} Sexo: {r.genero}</p>
                                
-                                <Button variant="contained" color="primary" onClick={()=>selectRepre(r.nombre,r.apellido,r.genero,r.edad)}>Seleccionar</Button>
+                                <Button variant="contained" color="primary" style={{width:"100%"}} onClick={()=>selectRepre(r.nombre,r.apellido,r.genero,r.edad)}>Seleccionar</Button>
                             </div>
                             
                             )}
@@ -849,7 +855,7 @@ const handleSuscribeRepre =(champ,nombre,apellido,genero,index,edad)=>{
                                     {inscripto.id}
                                   </TableCell>*/}
                                     <TableCell>
-                                    {user.id == inscripto.id ? <button className="btn btn-primary" onClick={()=>deleteIncripcionSub(inscripto.id, champ,idIns)}>Quitar inscripción</button> : ''}
+                                    {user.id == inscripto.id || user.id == inscripto.idTutor || user.role == 'Admin' ? <button className="btn btn-primary" onClick={()=>deleteIncripcionSub(inscripto._id, champ,idIns)}>Quitar inscripción</button> : ''}
                                     </TableCell>
 
                                   

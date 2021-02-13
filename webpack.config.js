@@ -40,7 +40,7 @@ module.exports = {
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: process.env.API_ENDPOINT
+            apiUrl: 'http://localhost:4000'
         })
     }
     
