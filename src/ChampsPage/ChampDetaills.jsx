@@ -17,7 +17,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import {Dialog, DialogActions, DialogContent, DialogTitle, Divider} from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
-import {accountService} from '../_services/account.service'
+import {accountService} from '../_services/account.service';
+import moment from 'moment';
 
 
 
@@ -32,9 +33,10 @@ const useStyles = makeStyles((theme) =>({
         }
     },
     title:{
-        fontSize: 20,
+        fontSize: 24,
         color: "#000",
-        textAlign: "center"
+        textAlign: "center",
+        fontWeight: "bold"
     },
     img:{
         width: "100%"
@@ -732,7 +734,9 @@ const handleSuscribeRepre =(champ,nombre,apellido,genero,index,edad)=>{
    
 }
 
+const periodoDesde = moment.utc(new Date(champ.fechaDesde)).format('DD/MM/YYYY');
 
+const periodoHasta = moment.utc(new Date(champ.fechaHasta)).format('DD/MM/YYYY');
 
 
     return (
@@ -743,20 +747,21 @@ const handleSuscribeRepre =(champ,nombre,apellido,genero,index,edad)=>{
                         <Grid container flex-direction="row" className={classes.center} >
                         <Grid item xs={12}>
                             <Grid item xs={12}>
-                            <Typography>Nombre: {champ.nombre}</Typography>
+                            <Typography style={{fontSize:22}}><strong>{champ.nombre}</strong></Typography>
                             </Grid>
                             <Grid item xs={12}>
-                            <Typography>Lugar: {champ.lugar}</Typography>
+                            <Typography><strong>Lugar:</strong> {champ.lugar}</Typography>
                             </Grid>
                             <Grid item xs={12}>   
-                                <Typography>Fecha:{champ.fecha}</Typography>   
+                            <Typography><strong>Periodo de espera:</strong><br/>
+                            {'desde el '+periodoDesde+' al '+periodoHasta}</Typography> 
                             </Grid>
                            <Button onClick={()=>openUbic()}>Ver Ubicacion</Button>
                         </Grid>
                         <Grid item xs={12} style={{paddingBottom:"20px"}}>
                            
 
-                            <p>Subcategorias</p>
+                            <h4>Subcategorias</h4>
                                         <Grid item className={classes.contSubcats}>
                                         {champ.subcategorias.length > 0 ? champ.subcategorias.map((r,index1)=>
                                                 <div className={classes.boxSubcat} key={r._id}>
@@ -823,7 +828,7 @@ const handleSuscribeRepre =(champ,nombre,apellido,genero,index,edad)=>{
 
                 <Dialog open={openDialog} onClose={()=>handleClose()}>
                     <DialogTitle>
-                                    Inscriptos en categoria: {champ.subcategorias[idIns].nombre+' '+champ.subcategorias[idIns].genero}
+                                    Inscriptos en categoria: {champ.subcategorias.length > 0 && champ.subcategorias[idIns].nombre+' '+champ.subcategorias[idIns].genero}
                     </DialogTitle>
                     <Divider />
                     <DialogContent>
@@ -840,7 +845,7 @@ const handleSuscribeRepre =(champ,nombre,apellido,genero,index,edad)=>{
                                     
                                 </TableHead>
                                 <TableBody>
-                                {champ.subcategorias[idIns].inscriptos && champ.subcategorias[idIns].inscriptos.map((inscripto)=>
+                                {champ.subcategorias.length > 0 && champ.subcategorias[idIns].inscriptos && champ.subcategorias[idIns].inscriptos.map((inscripto)=>
                                  <TableRow key={inscripto._id}>
                                      <TableCell>
                                      {inscripto.nombre}

@@ -48,13 +48,44 @@ center:{
 }));
 
 export const ChampCard = ({champ}) => {
+
+
+   
     const [detaills, setDetaill] = useState(false);
 
     const history = useHistory();
 
-const imagen = champ.image ? champ.image : image;
+const imagen = champ.imageFile ? champ.imageFile : image;
     
-const fecha = moment(champ.fechaHasta).format('DD-MM-YYYY');
+const fecha = moment.utc(champ.insHasta).format('DD-MM-YYYY');
+
+const periodoDesde = moment.utc(champ.fechaDesde).format('DD-MM-YYYY');
+
+const periodoHasta = moment.utc(champ.fechaHasta).format('DD-MM-YYYY');
+
+const [imageFile, setImageFile] = useState('');
+
+      const [convertedFile, setConvertedFile] = useState('');
+
+      const convertImage = async (event) => {
+        try {
+                const convertedImage = await Convert(imageFile)
+                if( convertedImage ){
+                        console.log('converted image '+convertedImage);
+                        // after this pass it to the backend using your fav API,
+                       setConvertedFile(convertedImage);
+                       
+                      
+                } else{
+                        console.log('The file is not in format of image/jpeg or image/png')
+                 }
+                }       
+        catch (error) {
+                console.warn(error.message)
+                }
+                }
+
+
 
     const classes =useStyles(); 
     const renderChamps = () =>{
@@ -69,6 +100,7 @@ const fecha = moment(champ.fechaHasta).format('DD-MM-YYYY');
                         </Grid>
                         <Typography><strong>Precio de incripcion:</strong> ${champ.precio}</Typography>
                         <Typography><strong>Inscripciones hasta:</strong> {fecha}</Typography>
+                      
                     </Grid>
           
             );

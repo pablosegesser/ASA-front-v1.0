@@ -14,6 +14,7 @@ import {useDispatch} from 'react-redux';
 import MainListItems from './listItems';
 import logo from '../assets/logoTrans.png';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HomeIcon from '@material-ui/icons/Home';
 
 
 

@@ -31,6 +31,8 @@ import {
 import sortArray from '../_helpers/order';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import {Convert} from 'mongo-image-converter';
+import regeneratorRuntime from "regenerator-runtime";
 
 
 
@@ -256,6 +258,7 @@ const refresh = () =>{
         setchampsNew({...champsNew,
             [name]: value,
             subcategorias: arr
+            
           });
     }else{
     setchampsNew({...champsNew,
@@ -268,9 +271,12 @@ const refresh = () =>{
     const name = target.name;
 
     setchamps({ ...champs,
-      [name]: value
-    });
+        [name]: value
+      });
+
+   
  }
+
  const openAdding = ()=>{
      setopenAdd(!openAdd);
  }
@@ -278,7 +284,7 @@ const refresh = () =>{
  const handleSubmitChampsNew = (e) =>{
     e.preventDefault();
     console.log('champnew '+champsNew);
-    if (champsNew.nombre !== '' && champsNew.fecha !== '' && champsNew.lugar !== '') {
+    if (champsNew.nombre !== '' && champsNew.lugar !== '') {
        dispatch(campeonatosActions.register(champsNew));
        setchampsNew({
         nombre:'',
@@ -366,6 +372,13 @@ const refresh = () =>{
         [theme.breakpoints.down('xs')]:{
             fontSize:24
         }
+    },
+    boxFormGroup:{
+        backgroundColor: "#f5f5f5",
+        borderRadius:"10px",
+        border:"1px solid #ccc",
+        padding:10,
+        margin:"20px auto"
     }
 }));
 
@@ -675,6 +688,52 @@ const onchangeSubcat = (e)=>{
               open:false
           })
       }
+      const [imageFile, setImageFile] = useState('');
+
+      const [convertedFile, setConvertedFile] = useState('');
+
+      const [Uploaded, setUploaded] = useState(false)
+
+      const convertImage = async (from) => {
+        try {
+                const convertedImage = await Convert(imageFile)
+                if( convertedImage ){
+                        console.log('converted image '+convertedImage);
+                        // after this pass it to the backend using your fav API,
+                        if(from == 'update'){
+                            setchamps({ ...champs,
+                                imageFile:convertedImage
+                              });
+                        }else{
+                            setchampsNew({
+                                ...champsNew,
+                                imageFile:convertedImage
+                            })
+                        }
+                        
+                      
+                      
+                } else{
+                        console.log('The file is not in format of image/jpeg or image/png')
+                 }
+                }       
+        catch (error) {
+                console.warn(error.message)
+                }
+                }
+
+                const handleImageUpdateChange = (e) =>{
+                   
+                    setImageFile( e.target.files[0] );
+
+                
+                }
+                const handleImageNewChange = (e) =>{
+                   
+                    setImageFile( e.target.files[0] );
+
+                
+                }
 
     return (
         <Grid container className={classes.paddLeft}>
@@ -728,7 +787,7 @@ const onchangeSubcat = (e)=>{
                           <ChampCard champ={user} />
                           {user.deleting ? <em> - Deleting...</em>
                             : user.deleteError ? <span className="text-danger"> - ERROR: {user.deleteError}</span>
-                            : userCurrent.role == 'Admin' && <div className={classes.center}><span><Button variant="contained" color="secondary" startIcon={<DeleteIcon />} onClick={() => fireDelete(user.id)} className="text-primary">Borrar</Button></span>  <span><Button variant="contained" color="primary" startIcon={<EditIcon />} onClick={() => handleEditChamp(user,index)} className="text-primary">Edit</Button></span></div>}
+                            : userCurrent.role == 'Admin' && <div className={classes.center}><span><Button variant="contained" color="secondary" startIcon={<DeleteIcon />} onClick={() => fireDelete(user.id)} className="text-primary">Borrar</Button></span>  <span><Button variant="contained" color="primary" startIcon={<EditIcon />} onClick={() => handleEditChamp(user,index)} className="text-primary">Editar</Button></span></div>}
                             
                         </Slide>
                     
@@ -770,13 +829,10 @@ const onchangeSubcat = (e)=>{
                <Divider/>
                <DialogContent>
                <form onSubmit={handleSubmitChampsNew}>
+                   <Grid className={classes.boxFormGroup}>
                         <div className="form-group">
                         <label>Nombre</label>
                         <input type="text" name="nombre" onChange={handleChangeChamps}  className="form-control"></input>
-                        </div>
-                        <div className="form-group">
-                        <label>Fecha</label>
-                        <input type="text" name="fecha" onChange={handleChangeChamps}  className="form-control"></input>
                         </div>
                         <div className="form-group">
                         <label>Lugar</label>
@@ -790,6 +846,8 @@ const onchangeSubcat = (e)=>{
                         <label>Categoria</label>
                         <input type="text" name="categoria" onChange={handleChangeChamps} className="form-control"></input><br></br>
                         </div>
+                        </Grid>
+                        <Grid className={classes.boxFormGroup}>
                         <div className="form-group">
                         <label>Subcategorias</label>
                         <Grid item className={classes.contSubcats}>
@@ -816,26 +874,38 @@ const onchangeSubcat = (e)=>{
                                             <input type="number" name="edadMax" onChange={handleAddArr}></input>
                                         </Grid>
                                         
-                                    <Button variant="contained" color="primary" onClick={()=>handleAddSubcatArr()}>AGREGAR SUBCATEGORÍA</Button><br></br>
+                                    <Button variant="contained" color="primary" onClick={()=>handleAddSubcatArr()}>AGREGAR SUBCATEGORÍA +</Button><br></br>
                         </div>
+                        </Grid>
+                        <Grid className={classes.boxFormGroup}>
                         <div className="form-group">
                         <label>Genero</label>
                         <input type="text" name="genero" onChange={handleChangeChamps} className="form-control"></input><br></br>
                         </div>
                         <div className="form-group">
-                        <label>Fecha hasta</label>
-                        <input type="date" name="fechaHasta" onChange={handleChangeChamps} className="form-control"></input><br></br>
+                        <label>Inscripciones hasta</label>
+                        <input type="date" name="insHasta" onChange={handleChangeChamps} className="form-control"></input><br></br>
                         </div>
                         <div className="form-group">
                         <label>Precio</label>
                         <input type="number" name="precio" onChange={handleChangeChamps} className="form-control"></input><br></br>
                         </div>
                         <div className="form-group">
-                        <label>Url de Imagen</label>
-                        <input type="text" name="image" onChange={handleChangeChamps} className="form-control"></input><br></br>
+                        <label>Periodo de Espera</label><br/>
+                        <label>Desde</label><br/>
+                        <input type="date" name="fechaDesde" onChange={handleChangeChamps} className="form-control"></input><br></br>
+                        <label>Hasta</label><br/>
+                        <input type="date" name="fechaHasta" onChange={handleChangeChamps} className="form-control"></input><br></br>
                         </div>
-                               
-                        <Button type="submit" variant="contained" color="primary" style={{margin: "10px"}}>Guardar</Button>
+                        </Grid>
+                        <Grid className={classes.boxFormGroup}>
+                        <div className="form-group">
+                        <label>Imagen</label>
+                        <input type="file" name="imageFile" onChange={handleImageUpdateChange} className="form-control"></input><br></br>
+                        <Button variant="contained" color="primary" onClick={()=>convertImage('new')}>SUBIR</Button>
+                        </div>
+                        </Grid>     
+                        <Button type="submit" variant="contained" color="primary" style={{margin: "10px"}}>Guardar campeonato</Button>
                         
                         </form>
                </DialogContent>
@@ -937,13 +1007,10 @@ const onchangeSubcat = (e)=>{
                                                 <Divider />
                                                 <DialogContent>
                                                     <form onSubmit={handleSubmitChampsUpdate}>
+                                                        <Grid className={classes.boxFormGroup}>
                                                         <div className="form-group">
                                                         <label>Nombre</label>
                                                         <input type="text" name="nombre" onChange={handleChangeChampsUpdate} defaultValue={user.nombre} className="form-control"></input>
-                                                        </div>
-                                                        <div className="form-group">
-                                                        <label>Fecha</label>
-                                                        <input type="text" name="fecha" onChange={handleChangeChampsUpdate} defaultValue={user.fecha} className="form-control"></input>
                                                         </div>
                                                         <div className="form-group">
                                                         <label>Lugar</label>
@@ -957,6 +1024,8 @@ const onchangeSubcat = (e)=>{
                                                         <label>Categoria</label>
                                                         <input type="text" name="categoria" onChange={handleChangeChampsUpdate} defaultValue={user.categoria} className="form-control"></input><br></br>
                                                         </div><br/><br/>
+                                                        </Grid>
+                                                        <Grid className={classes.boxFormGroup}>
                                                         <div className="form-group">
                                                         <p>Subcategorias</p>
                                                         <Grid item className={classes.contSubcats}>
@@ -983,16 +1052,18 @@ const onchangeSubcat = (e)=>{
                                                             <input type="number" name="edadMax" onChange={onchangeSubcat}></input>
                                                         </Grid>
                                                         
-                                                    <button className="btn btn-primary" onClick={()=>handleAddSubCategory(user,subcat.nombre,subcat.genero)}>ADD SUBCATEGORY</button><br></br>
+                                                    <Button variant="contained" color="primary" onClick={()=>handleAddSubCategory(user,subcat.nombre,subcat.genero)}>AGREGAR SUBCATEGORIA +</Button><br></br>
                                                     </div>
+                                                    </Grid>
+                                                    <Grid className={classes.boxFormGroup}>
                                                         <div className="form-group">
                                                         <label>Genero</label>
                                                         <input type="text" name="genero" onChange={handleChangeChampsUpdate} defaultValue={user.genero} className="form-control"></input><br></br>
                                                     
                                                         </div>
                                                         <div className="form-group">
-                                                        <label>Fecha hasta</label>
-                                                        <input type="date" name="fechaHasta" onChange={handleChangeChampsUpdate} defaultValue={moment(new Date(user.fechaHasta)).format('DD/MM/YYYY')} className="form-control"></input><br></br>
+                                                        <label>Inscripciones hasta</label>
+                                                        <input type="date" name="insHasta" onChange={handleChangeChampsUpdate} defaultValue={new Date(user.insHasta)} className="form-control"></input><br></br>
                                                     
                                                         </div>
                                                         <div className="form-group">
@@ -1000,11 +1071,21 @@ const onchangeSubcat = (e)=>{
                                                         <input type="number" name="precio" onChange={handleChangeChampsUpdate} defaultValue={user.precio} className="form-control"></input><br></br>
                                                         </div>
                                                         <div className="form-group">
-                                                        <label>Url de Imagen</label>
-                                                        <input type="text" name="image" onChange={handleChangeChampsUpdate} defaultValue={user.image} className="form-control"></input><br></br>
+                                                        <label>Periodo de Espera</label><br/>
+                                                        <label>Desde</label><br/>
+                                                        <input type="date" name="fechaDesde" onChange={handleChangeChampsUpdate} defaultValue={new Date(user.fechaDesde)} className="form-control"></input><br></br>
+                                                        <label>Hasta</label><br/>
+                                                        <input type="date" name="fechaHasta" onChange={handleChangeChampsUpdate} defaultValue={new Date(user.fechaHasta)} className="form-control"></input><br></br>
                                                         </div>
-                                                            
-                                                        <button type="submit" className="btn btn-primary" style={{margin: "10px"}}>Guardar</button>
+                                                        </Grid>
+                                                        <Grid className={classes.boxFormGroup}>
+                                                        <div className="form-group">
+                                                        <label>Imagen</label>
+                                                        <input type="file" name="imageFile" onChange={handleImageUpdateChange} className="form-control"></input><br></br>
+                                                        <Button variant="contained" color="primary" onClick={()=>convertImage('update')}>{Uploaded ? 'SUBIDO' : 'SUBIR' }</Button>
+                                                        </div>
+                                                        </Grid>
+                                                        <Button type="submit" variant="contained" color="primary" style={{margin: "10px"}}>Guardar cambios</Button>
                                                         
                                                         </form>
                                                 </DialogContent>

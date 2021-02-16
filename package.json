@@ -29,6 +29,7 @@
         "google-map-react": "^2.1.9",
         "history": "^4.10.1",
         "moment": "^2.29.1",
+        "mongo-image-converter": "^1.0.2",
         "pure-react-carousel": "^1.27.6",
         "query-string": "^6.13.8",
         "react": "^16.13.0",
@@ -44,6 +45,7 @@
     },
     "devDependencies": {
         "@babel/core": "^7.4.3",
+        "@babel/plugin-transform-runtime": "^7.12.15",
         "@babel/preset-env": "^7.4.3",
         "@babel/preset-react": "^7.0.0",
         "babel-loader": "^8.0.5",

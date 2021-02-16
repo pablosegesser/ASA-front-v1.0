@@ -576,11 +576,11 @@ const refresh = () =>{
                 <Grid item className={classes.contRepre}>
                 <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                        <label>firstName</label>
+                        <label>Nombre</label>
                         <input type="text" name="firstName" onChange={handleChange} defaultValue={userValue !== null ? userValue.firstName: user.firstName} className="form-control"></input>
                         </div>
                         <div className="form-group">
-                        <label>lasstName</label>
+                        <label>Apellido</label>
                         <input type="text" name="lastName" onChange={handleChange} defaultValue={userValue !== null ? userValue.lastName : user.lastName} className="form-control"></input>
                         </div>
                         {userValue == null ? <Grid className="form-group">
@@ -593,8 +593,8 @@ const refresh = () =>{
                                             <span> Femenino  <input type="radio" name="genero" defaultChecked={userValue.genero == 'fem'  ? true : ''} onChange={handleChange}  value="fem" ></input></span>
                                         </Grid>}
                         <div className="form-group">
-                        <label>dateOfBirth</label>
-                        <p>{moment(new Date(userValue !== null ? userValue.dateOfBirth : user.dateOfBirth)).format('DD/MM/YYYY')}</p><br></br>
+                        <label>Fecha de Nacimiento</label>
+                        <p>{moment.utc(new Date(userValue !== null ? userValue.dateOfBirth : user.dateOfBirth)).format('DD/MM/YYYY')}</p><br></br>
                         </div>
                         <Grid item className={classes.center}>
                         <Button type="submit" variant="contained" color="primary"  style={{marginTop: "10px",textAlign:"center"}} >Guardar cambios de perfil</Button>
